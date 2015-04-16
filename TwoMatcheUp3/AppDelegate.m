@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "PrefixHeader.pch"
 
 @interface AppDelegate ()
 
@@ -17,8 +18,34 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+    [Parse setApplicationId:@"JRHZr8PQyVBB3imTRy9e9gGErfIlPXE7qrx8pTAB"
+                  clientKey:@"UPu8uUlBtcZUPNESXS4b0SiwAkmLNqdXuLlmzszA"];
+    
+    [PFFacebookUtils initializeFacebook];
+    
+    NSString *defaultPrefsFile = [[NSBundle mainBundle] pathForResource:@"defaultPrefsFile" ofType:@"plist"];
+    NSDictionary *defaultPreference = [NSDictionary dictionaryWithContentsOfFile:defaultPrefsFile];
+    [[NSUserDefaults standardUserDefaults] registerDefaults:defaultPreference];
+    
+    [[UINavigationBar appearance] setTintColor:[UIColor blueColor]];
+    [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor colorWithRed:12/255.0 green:158/255.0 blue:255/255.0 alpha:1.0], NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:20.0]}];
+  
+    
+    
+    
     return YES;
 }
+
+
+-(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
+    
+    return [FBAppCall handleOpenURL:url sourceApplication:sourceApplication];
+    
+}
+
+
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
